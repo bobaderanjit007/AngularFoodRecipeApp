@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="meal-wrapper">
+        <div class="meal-search">
+            <h2 class="title">Find Meals For Your Ingredients</h2>
+            <blockquote>"Simply input the ingredients and discover a delightful meal tailored just for you!"<br>
+                <!-- <cite>- Search ingredients</cite> -->
+            </blockquote>
+            <form (ngSubmit)="getRecipeByName(searchInput)" class="meal-search-box">
+                <input required type="text" [(ngModel)]="searchInput" [ngModelOptions]="{ standalone: true }"
+                    class="search-control" placeholder="Enter an ingredient" id="search-input">
+                <button class="search-btn btn" type="submit" id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="meal-result" *ngIf="this.recipes">
+            <h2 class="title">Your Search Results:</h2>
+            <div id="meal" class="notFound" *ngIf="mealNotFound">Sorry, we didn't find any meal!</div>
+            <div id="meal">
+                <!-- meal item -->
+                <div class="meal-item" *ngFor="let recipe of recipes.meals">
+                    <div class="meal-img">
+                        <img [src]="isLoading ? loadingImageSrc : recipe.strMealThumb" alt="Food Image">
+                    </div>
+                    <div class="meal-name">
+                        <h3>{{recipe.strMeal}}</h3>
+                        <a href="#" (click)="getRecipeById(recipe.idMeal,true)" class="recipe-btn">Get Recipe</a>
+                    </div>
+                </div>
+                <!-- end of meal item -->
+
+            </div>
+        </div>
+        <div class="meal-details" [class.showRecipe]="showRecipe">
+            <!-- recipe close btn -->
+            <button class="recipe-close-btn btn" (click)="closeRecipe(false)" id="recipe-close-btn" type="button">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- meal content -->
+            <div class="meal-details-content " *ngIf="myRecipe">
+                <h2 class="recipe-title">{{myRecipe.meals[0].strMeal}}</h2>
+                <p class="recipe-category">{{myRecipe.meals[0].strCategory}}</p>
+                <iframe [src]="vidCode" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+                <div class="recipe-link">
+                    <a href="#show-ingredients" (click)="showIngredients = !showIngredients" id="show-ingredient">Show
+                        Ingredients <i id="arrow" class="fa-solid fa-chevron-down arrow-up"
+                            [class.arrow-down]="showIngredients"></i></a>
+                </div>
+                <div class="ingredients">
+                    <ul id="items-list" class="ingredients-list list-close" [class.list-open]="showIngredients">
+                        <li *ngFor="let item of Ingredients">{{item}}</li>
+                    </ul>
+                </div>
+                <div class="recipe-instruct">
+                    <h3 class="Instruction"></h3>
+                    <p>{{myRecipe.meals[0].strInstructions}}</p>
+                </div>
+                <i>Grateful for Visiting!</i>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    © 2023 Ranjit Bobade. All rights reserved
+</footer>
